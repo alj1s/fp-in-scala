@@ -17,9 +17,40 @@ object List {
 
   def product(ds: List[Double]): Double = ds match {
     case Nil => 1.0
-    case Cons(0.0, _) => 0.0
     case Cons(x, xs) => x * product(xs)
   }
+
+  def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+    case Nil => z
+    case Cons(x, xs) => f(x, foldRight(xs)(f))
+  }
+
+  def sum2(ns: List[Int]): Int =
+    foldRight(ns, 0)((x, y) => x + y)
+
+  def product2(ns: List[Double]): Double =
+    foldRight(ns, 1.0)((x, y) => x * y)
+
+  def length(ns: List[A]): Int =
+    foldRight(ns, 0)((_, y) => 1 + y)
+
+  @annotation.tailrec
+  def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B): B = as match {
+    case Nil => z
+    case Cons(x, xs) => foldLeft(xs, f(z, x))(f)
+  }
+
+  def sum3(ns: List[Int]): Int =
+    foldLeft(ns, 0)((x, y) => x + y)
+
+  def product3(ns: List[Double]): Double =
+    foldLeft(ns, 1.0)((x, y) => x * y)
+
+  def length2(ns: List[A]): Int =
+    foldLeft(ns, 0)((x, y) => 1 + y)
+
+  def reverse(ns: List[A]): List[A] =
+    foldLeft(ns, List[A]())((x, y) => Cons(y, x))
 
   def apply[A](as: A*): List[A] =
     if (as.isEmpty) Nil
@@ -38,8 +69,8 @@ object List {
     loop(l, n)
   }
 
-  def dropWhile[A](l: List[A], f: A => Boolean): List[A] = l match {
-    case Cons(x, xs) if (f(x)) => dropWhile(xs, f)
+  def dropWhile[A](l: List[A])(f: A => Boolean): List[A] = l match {
+    case Cons(x, xs) if f(x) => dropWhile(xs)(f)
     case _ => l
   }
 
