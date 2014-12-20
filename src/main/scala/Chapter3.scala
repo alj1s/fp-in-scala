@@ -22,7 +22,7 @@ object List {
 
   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
     case Nil => z
-    case Cons(x, xs) => f(x, foldRight(xs)(f))
+    case Cons(x, xs) => f(x, foldRight(xs, z)(f))
   }
 
   def sum2(ns: List[Int]): Int =
@@ -31,7 +31,7 @@ object List {
   def product2(ns: List[Double]): Double =
     foldRight(ns, 1.0)((x, y) => x * y)
 
-  def length(ns: List[A]): Int =
+  def length[A](ns: List[A]): Int =
     foldRight(ns, 0)((_, y) => 1 + y)
 
   @annotation.tailrec
@@ -40,16 +40,20 @@ object List {
     case Cons(x, xs) => foldLeft(xs, f(z, x))(f)
   }
 
+  def foldRightViaFoldLeft[A, B](as: List[A], z: B)(f: (A, B) => B): B = foldLeft(reverse(as), z)((b, a) => f(a, b))
+
+  def foldLeftViaFoldRight[A, B](as: List[A], z: B)(f: (B, A) => B): B = foldRight(reverse(as), z)((a, b) => f(b, a))
+
   def sum3(ns: List[Int]): Int =
     foldLeft(ns, 0)((x, y) => x + y)
 
   def product3(ns: List[Double]): Double =
     foldLeft(ns, 1.0)((x, y) => x * y)
 
-  def length2(ns: List[A]): Int =
-    foldLeft(ns, 0)((x, y) => 1 + y)
+  def length2[A](ns: List[A]): Int =
+    foldLeft(ns, 0)((x, y) => x + 1)
 
-  def reverse(ns: List[A]): List[A] =
+  def reverse[A](ns: List[A]): List[A] =
     foldLeft(ns, List[A]())((x, y) => Cons(y, x))
 
   def apply[A](as: A*): List[A] =
