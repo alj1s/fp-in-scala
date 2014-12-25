@@ -1,7 +1,7 @@
 /**
  * Created by andrewjones on 21/12/14.
  */
-package fpinscala.datastructures.Chapter4
+package fpinscala.Chapter4
 
 // Exercise 4.1
 sealed trait Option[+A] {

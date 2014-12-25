@@ -2,7 +2,7 @@
  * Created by andrewjones on 22/12/14.
  */
 
-//package fpinscala.datastructures.Chapter5
+package fpinscala.Chapter5
 
 import Stream._
 
