@@ -2,7 +2,7 @@
  * Created by andrewjones on 24/12/14.
  */
 
-package fpinscala.Chapter6
+//package fpinscala.Chapter6
 
 trait RNG {
   def nextInt: (Int, RNG)
@@ -22,7 +22,7 @@ object RNG {
   def nonNegativeInt(rng: RNG): (Int, RNG) = {
     rng.nextInt match {
       case (n, nextRng) if (n < 0) => (1 - n, nextRng)
-      case _ => _
+      case (n, nextRng) => (n, nextRng)
     }
   }
 
