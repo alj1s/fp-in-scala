@@ -1,7 +1,7 @@
 /**
  * Created by andrewjones on 06/10/2014.
  */
-package fpinscala.datastructures
+package fpinscala.Chapter3
 
 sealed trait List[+A]
 
